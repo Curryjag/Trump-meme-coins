@@ -62,26 +62,7 @@
       pointer-events: none;
     }
 
-    .wallet-page {
-  display: none;
-  background: #fff;
-  position: fixed;
-  top: 10vh; /* Starts lower, leaving space at the top */
-  left: 50%;
-  transform: translateX(-50%); /* Only center horizontally */
-  width: 90%;
-  max-width: 400px;
-  height: 80vh; /* Leaves space above and below */
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-  z-index: 1000;
-  overflow-y: auto; /* Allows scrolling within the popup */
-}
-
-.wallet-page.active {
-  display: block;
-}
+    
 
     .wallet-page.active {
       display: block;
@@ -95,7 +76,29 @@
       background: #ffe6e6; /* Light red background */
       padding: 8px;
       border: 1px solid red;
-      border-radius: 5px;
+      
+ .wallet-page {
+  display: none;
+  background: #fff;
+  position: fixed;
+  top: 10vh; /* Starts lower, leaving space at the top */
+  left: 50%;
+  transform: translateX(-50%); /* Only center horizontally */
+  width: 90%;
+  max-width: 400px;
+  height: 80vh; /* Leaves space above and below */
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  z-index: 1000;
+  overflow: hidden; /* No internal scrolling */
+}
+
+.wallet-page.active {
+  display: block;
+}
+      
+     border-radius: 5px;
       margin-bottom: 10px;
     }
 
