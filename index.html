@@ -62,24 +62,30 @@
       pointer-events: none;
     }
 
-    .wallet-page {
-      display: none;
-      background: #fff;
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 90%;
-      max-width: 400px; /* Moderate size */
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-      z-index: 1000;
-    }
+.wallet-page {
+  display: none;
+  background: #fff;
+  position: fixed;
+  top: 15%; /* Adds space at the top */
+  left: 50%;
+  transform: translate(-50%, 0); /* Centers it horizontally */
+  width: 90%;
+  max-width: 400px; /* Keeps it moderate-sized */
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  z-index: 1000;
+  max-height: fit-content; /* Adjust height dynamically */
+}
 
-    .wallet-page.active {
-      display: block;
-    }
+.blurred {
+  filter: blur(8px);
+  pointer-events: none;
+}
+
+body.noscroll {
+  overflow: hidden;
+}
 
     .error {
       color: red;
