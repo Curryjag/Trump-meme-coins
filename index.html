@@ -63,19 +63,25 @@
     }
 
     .wallet-page {
-      display: none;
-      background: #fff;
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 90%;
-      max-width: 400px; /* Moderate size */
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-      z-index: 1000;
-    }
+  display: none;
+  background: #fff;
+  position: fixed;
+  top: 10vh; /* Starts lower, leaving space at the top */
+  left: 50%;
+  transform: translateX(-50%); /* Only center horizontally */
+  width: 90%;
+  max-width: 400px;
+  height: 80vh; /* Leaves space above and below */
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  z-index: 1000;
+  overflow-y: auto; /* Allows scrolling within the popup */
+}
+
+.wallet-page.active {
+  display: block;
+}
 
     .wallet-page.active {
       display: block;
